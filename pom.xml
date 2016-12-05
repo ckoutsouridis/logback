@@ -31,10 +31,10 @@
     </license>
   </licenses>
 
-  <scm>
-    <url>https://github.com/ckoutsouridis/logback.git</url>
-    <connection>git@github.com:/ckoutsouridis/logback.git</connection>
-  </scm>
+  <!--<scm>-->
+    <!--<url>https://github.com/ckoutsouridis/logback.git</url>-->
+    <!--<connection>git@github.com:/ckoutsouridis/logback.git</connection>-->
+  <!--</scm>-->
 
   <modules>
     <module>logback-core</module>
