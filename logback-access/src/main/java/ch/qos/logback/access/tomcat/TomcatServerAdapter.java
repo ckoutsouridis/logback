@@ -15,6 +15,7 @@ package ch.qos.logback.access.tomcat;
 
 import ch.qos.logback.access.spi.ServerAdapter;
 
+import org.apache.catalina.Globals;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 
@@ -38,7 +39,24 @@ public class TomcatServerAdapter implements ServerAdapter {
 
     @Override
     public long getContentLength() {
-        return response.getContentLength();
+        // Don't need to flush since trigger for log message is after the
+        // response has been committed
+        long length = response.getBytesWritten(false);
+        if (length <= 0) {
+            // Protect against nulls and unexpected types as these values
+            // may be set by untrusted applications
+            Object start = request.getAttribute(
+                    Globals.SENDFILE_FILE_START_ATTR);
+            if (start instanceof Long) {
+                Object end = request.getAttribute(
+                        Globals.SENDFILE_FILE_END_ATTR);
+                if (end instanceof Long) {
+                    length = ((Long) end).longValue() -
+                            ((Long) start).longValue();
+                }
+            }
+        }
+        return length;
     }
 
     @Override
