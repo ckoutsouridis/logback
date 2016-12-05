@@ -14,7 +14,6 @@
 package ch.qos.logback.access.tomcat;
 
 import ch.qos.logback.access.spi.ServerAdapter;
-
 import org.apache.catalina.Globals;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
@@ -56,7 +55,12 @@ public class TomcatServerAdapter implements ServerAdapter {
                 }
             }
         }
-        return length;
+        if (length <= 0) {
+            return -1;
+        } else {
+            return length;
+        }
+
     }
 
     @Override
